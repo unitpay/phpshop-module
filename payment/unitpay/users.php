@@ -3,44 +3,45 @@
 function unitpay_users_repay($obj, $PHPShopOrderFunction) {
     global $PHPShopBase, $SysValue;
 
-    // ðåãèñòðàöèîííàÿ èíôîðìàöèÿ
+    // Ñ€ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ð¾Ð½Ð½Ð°Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ
+    $domain = $SysValue['unitpay']['domain'];
     $public_key = $SysValue['unitpay']['public_key'];
     $secret_key = $SysValue['unitpay']['secret_key'];
 
 
-    // ïàðàìåòðû ìàãàçèíà
+    // Ð¿Ð°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹ Ð¼Ð°Ð³Ð°Ð·Ð¸Ð½Ð°
     /*$mrh_ouid = explode("-", $PHPShopOrderFunction->objRow['uid']);
-    $inv_id = $mrh_ouid[0] . "" . $mrh_ouid[1];     //íîìåð ñ÷åòà*/
+    $inv_id = $mrh_ouid[0] . "" . $mrh_ouid[1];     //Ð½Ð¾Ð¼ÐµÑ€ ÑÑ‡ÐµÑ‚Ð°*/
     $id = $PHPShopOrderFunction->objRow['uid'];
 
-    // ñóììà ïîêóïêè
+    // ÑÑƒÐ¼Ð¼Ð° Ð¿Ð¾ÐºÑƒÐ¿ÐºÐ¸
     $out_summ  = number_format($PHPShopOrderFunction->getTotal(), 2, '.', '');
     
-    // êîä âàëþòû â çàêàçå
+    // ÐºÐ¾Ð´ Ð²Ð°Ð»ÑŽÑ‚Ñ‹ Ð² Ð·Ð°ÐºÐ°Ð·Ðµ
     $mnt_currency = $GLOBALS['PHPShopSystem']->getDefaultValutaIso();
 
-    // áèáëèîòåêà êîðçèíû
+    // Ð±Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÐ° ÐºÐ¾Ñ€Ð·Ð¸Ð½Ñ‹
     $PHPShopCart = new PHPShopCart();
 
     /**
-     * Øàáëîí âûâîäà òàáëèöû êîðçèíû
+     * Ð¨Ð°Ð±Ð»Ð¾Ð½ Ð²Ñ‹Ð²Ð¾Ð´Ð° Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹ ÐºÐ¾Ñ€Ð·Ð¸Ð½Ñ‹
      */
     function cartpaymentdetails($val) {
-        $dis = $val['uid'] . "  " . $val['name'] . " (" . $val['num'] . " øò. * " . $val['price'] . ") -- " . $val['total'] . "
+        $dis = $val['uid'] . "  " . $val['name'] . " (" . $val['num'] . " ÑˆÑ‚. * " . $val['price'] . ") -- " . $val['total'] . "
 ";
 
         return $dis;
     }
 
-    // Åñëè çàêàç íå îïëà÷åí
+    // Ð•ÑÐ»Ð¸ Ð·Ð°ÐºÐ°Ð· Ð½Ðµ Ð¾Ð¿Ð»Ð°Ñ‡ÐµÐ½
     if ($PHPShopOrderFunction->getParam('statusi') != 101)
-        $disp = '<form method="GET" name="pay" id="pay" action="https://unitpay.ru/pay/' . $public_key . '">
+        $disp = '<form method="GET" name="pay" id="pay" action="https://' . $domain . '/pay/' . $public_key . '">
     <input type="hidden" name="account" value="'.$id.'">
     <input type="hidden" name="sum" value="'.$out_summ.'">
     <input type="hidden" name="currency" value="'.$mnt_currency.'">
     <input type=hidden name="desc" value="'.iconv('windows-1251','utf-8',$PHPShopCart->display('cartpaymentdetails')).'">
-	<a href="javascript:void(0)" class=b title="' . __('Îïëàòèòü') . ' ' . $PHPShopOrderFunction->getOplataMetodName() . '" onclick="javascript:pay.submit();" >
-            <img src="images/shop/coins.gif" alt="Îïëàòèòü" width="16" height="16" border="0" align="absmiddle"  hspace=5>' .
+	<a href="javascript:void(0)" class=b title="' . __('ÐžÐ¿Ð»Ð°Ñ‚Ð¸Ñ‚ÑŒ') . ' ' . $PHPShopOrderFunction->getOplataMetodName() . '" onclick="javascript:pay.submit();" >
+            <img src="images/shop/coins.gif" alt="ÐžÐ¿Ð»Ð°Ñ‚Ð¸Ñ‚ÑŒ" width="16" height="16" border="0" align="absmiddle"  hspace=5>' .
                 $PHPShopOrderFunction->getOplataMetodName() . "</a></form>";
     else
         $disp = PHPShopText::b($PHPShopOrderFunction->getOplataMetodName());

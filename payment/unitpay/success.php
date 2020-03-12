@@ -4,7 +4,7 @@ if(empty($GLOBALS['SysValue'])) exit(header("Location: /"));
 
 if(isset($_GET['account'])){
 $order_metod="Unitpay";
-$success_function=true; // Выключаем функцию обновления статуса заказа
+$success_function=true; // Р’С‹РєР»СЋС‡Р°РµРј С„СѓРЅРєС†РёСЋ РѕР±РЅРѕРІР»РµРЅРёСЏ СЃС‚Р°С‚СѓСЃР° Р·Р°РєР°Р·Р°
 $my_crc = "NoN";
 $crc = "NoN";
 $inv_id = $_GET['account'];
