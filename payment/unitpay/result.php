@@ -76,7 +76,7 @@ function check( $params, $SysValue )
 
             $ISOCode = $row[0];
 
-            if ((float)$total != (float)$params['orderSum']) {
+            if ((float) number_format($total, 2, '.', '') != (float) number_format($params['orderSum'], 2, '.', '')) {
                 $result = array('error' =>
                     array('message' => 'не совпадает сумма заказа')
                 );
@@ -127,7 +127,7 @@ function pay( $params, $SysValue )
 
         $ISOCode = $row[0];
 
-        if ((float)$total != (float)$params['orderSum']) {
+        if ((float) number_format($total, 2, '.', '') != (float) number_format($params['orderSum'], 2, '.', '')) {
             $result = array('error' =>
                 array('message' => 'не совпадает сумма заказа')
             );
